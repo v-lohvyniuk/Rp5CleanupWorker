@@ -5,6 +5,12 @@ import selenium.webdriver.support.expected_conditions as conditions
 from selenium.webdriver.common.by import By
 import properties
 
+ACTION_MENU_DELETE_MENU_ITEM = "//*[contains(@class, 'ghostMenuButton') and child::*[contains(text(), 'Delete')]]"
+
+LAUNCH_CHECKBOX_XPATH = "//*[contains(@class , 'checkboxCell')]//div"
+
+ACTIONS_MENU_XPATH = "//*[contains(@class, 'ghostMenuButton')]"
+
 PASSWORD_BUTTON_XPATH = "//*[@placeholder='Password']"
 
 LOGIN_BUTTON_XPATH = "//*[@placeholder='Login']"
@@ -32,6 +38,16 @@ class Rp5Runner:
         self.__wait_until_element_clickable(HAMBURGER_XPATH)
         self.driver.find_element_by_xpath(HAMBURGER_XPATH).click()
         self.driver.find_element_by_xpath(HAM_DELETE_BUTTON_XPATH).click()
+        self.driver.find_element_by_xpath(DELETE_CONFIRM_BUTTON_XPATH).click()
+        self.__wait_until_ham_visible()
+
+    def delete_first_n_launches_on_page(self, amount):
+        self.__wait_until_element_clickable(HAMBURGER_XPATH)
+        launch_checkboxes = self.driver.find_elements_by_xpath(LAUNCH_CHECKBOX_XPATH)
+        for item in range(0, amount):
+            launch_checkboxes[item].click()
+        self.driver.find_element_by_xpath(ACTIONS_MENU_XPATH).click()
+        self.driver.find_element_by_xpath(ACTION_MENU_DELETE_MENU_ITEM).click()
         self.driver.find_element_by_xpath(DELETE_CONFIRM_BUTTON_XPATH).click()
         self.__wait_until_ham_visible()
 
